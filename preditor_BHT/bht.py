@@ -1,11 +1,25 @@
 import sys
 sys.path.append('../')
 from utils import utils
+from utils.utils import Contador
 
-m = 10
+M = 10 # Número de bits do PC usados para indexar a BHT
+N = 2  # Número de bits em cada registrador do BHT
 
-# Lendo o arquivo de trace e obtendo um dicionário da forma {endereço do desvio: histórico do desvio}
-desvios = utils.ler_arquivo_trace('../traces/trace1.txt', m)
+# Lendo o arquivo de trace e obtendo um dicionário na forma {endereço do desvio: histórico completo do desvio}
+desvios = utils.ler_arquivo_trace('../traces/trace1.txt', M)
 
-for endereco, dirs in desvios.items():
-    print(endereco, dirs)
+# Cria e inicializa a BHT
+BHT = {}
+for endereco, direcao in desvios.items():
+    if endereco not in BHT:
+        BHT[endereco] = [0]*N # iniciando o registrador indexado por "endereço" com 0
+        #print(endereco, BHT[endereco])
+
+# Cria e inicializa os contadores os contadores
+num_desvios = len(BHT)
+contadores = {}
+for endereco in BHT.keys():
+    contadores[endereco] = [Contador()]*(2**N) # Cada desvio terá 2^N contadores
+
+# Executa a simulação
