@@ -1,11 +1,9 @@
 
 def ler_arquivo_trace(arq, m):
-    # Um dicionario de desvios onde as chaves são os endereços 
-    # dos desvios e os valores são uma lista das direções tomadas
-    # por esse desvio em toda a execução do programa
-    desvios = {}
+    # Uma lista de tuplas na forma (endereço do desvio, t/n)
+    desvios = []
 
-    # Lê o arquivo traces e preenche o dicionário desvios
+    # Lê o arquivo traces e preenche "desvios"
     with open(arq) as file_trace1:
         linha = file_trace1.readline()
         while linha:       
@@ -16,11 +14,8 @@ def ler_arquivo_trace(arq, m):
             endereco_desvio_bin = bin(int(endereco_desvio_hex, 16))
             endereco_desvio_bin = endereco_desvio_bin[2:33].zfill(32)
             endereco_desvio_bin = endereco_desvio_bin[32 - m - 2: 32 - 2]
-            
-            if endereco_desvio_bin not in desvios:
-                desvios[endereco_desvio_bin] = [] 
-
-            desvios[endereco_desvio_bin].insert(0, direcao_desvio)
+ 
+            desvios.append((endereco_desvio_bin, direcao_desvio))
 
             linha = file_trace1.readline()
     
