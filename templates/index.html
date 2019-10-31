@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Preditor BHT</h1>
+    <div id="div-main">
+        <table>
+            <caption> <strong>DESVIOS</strong></caption>
+            <tr><th>endereço</th><th>direção</th></tr>
+            {% for desvio in desvios %}
+                <tr><td>{{ desvio[0] }}</td><td>{{ desvio[1] }}</td></tr>
+            {%endfor%}
+        </table>
+        <table>
+            <caption> <strong>BHT</strong></caption>
+            <tr><th>endereço</th><th>histórico</th></tr>
+            {% for end, hist in BHT.items() %}
+                <tr><td>{{ end }}</td><td>{{ hist }}</td></tr>
+            {%endfor%}
+        </table>
+        <table>
+            <caption> <strong>PADRÃO DOS DESVIOS</strong></caption>
+            <tr><th>endereço</th><th>contadores</th></tr>
+            {% for end, list_valores in contadores2.items() %}
+                <tr><td>{{ end }}</td><td>{{ list_valores }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <style>
+        h1{
+            text-align: center;
+        }
+        
+        table{
+            text-align: center;
+            border: 2px solid green;
+        }
+
+        td{
+            padding: 0px 10px 0px 10px;
+        }
+
+        #div-main{
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            padding-top: 50px;
+        }
+    </style>
+</body>
+</html>
