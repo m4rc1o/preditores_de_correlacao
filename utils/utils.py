@@ -10,16 +10,16 @@ def ler_arquivo_trace(arq, m):
             temp = linha.split()
             endereco_desvio_hex = temp[0]
             direcao_desvio = temp[1]
+            
             # Converte o endereço para binário e mantém apenas os m lsb com exeção dos dois primeiros bits
             endereco_desvio_bin = bin(int(endereco_desvio_hex, 16))
             endereco_desvio_bin = endereco_desvio_bin[2:33].zfill(32)
             endereco_desvio_bin = endereco_desvio_bin[32 - m - 2: 32 - 2]
- 
+            
             desvios.append((endereco_desvio_bin, direcao_desvio))
-
-            linha = file_trace1.readline()
-    
+            linha = file_trace1.readline()  
     return desvios
+
 
 class Contador:
     def __init__ (self):
