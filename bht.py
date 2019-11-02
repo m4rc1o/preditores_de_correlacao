@@ -2,8 +2,8 @@ import time
 import sys
 from utils import utils
 from utils.utils import Contador
-from flask import Flask, render_template
-
+from flask import Flask, render_template, redirect
+from flask_socketio import SocketIO, emit # Permite atulizações assíncronas nos templates
 
 M = 10 # Número de bits do PC usados para indexar a BHT
 N = 4  # Número de bits em cada registrador da BHT
@@ -54,18 +54,20 @@ def atualizar_tabelas(endereco_desvio, BHT, contadores, dir_realizada):
     else:
         contador.decrementar()
 
+
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 
-# Executa a simulação
-for endereco, direcao in desvios:
-    #time.sleep(.7)
-    #print("Desvio:", endereco)
-    #print("Histórico:", BHT[endereco])
-    #print("Previsão:", prever_direcao(endereco, BHT, contadores))
-    #time.sleep(.5)
-    #print("Direção realizada:", direcao, "\n")
-    atualizar_tabelas(endereco, BHT, contadores, direcao)
+""" for endereco, direcao in desvios:
+    time.sleep(.7)
+    print("Desvio:", endereco)
+    print("Histórico:", BHT[endereco])
+    print("Previsão:", prever_direcao(endereco, BHT, contadores))
+    time.sleep(.5)
+    print("Direção realizada:", direcao, "\n")
+    atualizar_tabelas(endereco, BHT, contadores, direcao) """
+    
 
 
 @app.route('/')
@@ -77,5 +79,9 @@ def index():
     return render_template('index.html', desvios=desvios, BHT=BHT, contadores2=contadores2)
 
 
+@socketio.on('connect', namespace='/')
+def enviar_atualizacao():
+    pass
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    socketio.run(app, debug=True, port=5001)

@@ -4,33 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
     <title>Document</title>
 </head>
 <body>
     <h1>Preditor BHT</h1>
     <div id="div-main">
-        <table>
+        <table id="tabela-desvios">
             <caption> <strong>DESVIOS</strong></caption>
             <tr><th>endereço</th><th>direção</th></tr>
             {% for desvio in desvios %}
-                <tr><td>{{ desvio[0] }}</td><td>{{ desvio[1] }}</td></tr>
+                <tr id={{"desv-" + desvio[0]}} name="linha-desvios"><td>{{ desvio[0] }}</td><td>{{ desvio[1] }}</td></tr>
             {%endfor%}
         </table>
-        <table>
+        <table id="tabela-bht">
             <caption> <strong>BHT</strong></caption>
             <tr><th>endereço</th><th>histórico</th></tr>
             {% for end, hist in BHT.items() %}
-                <tr><td>{{ end }}</td><td>{{ hist }}</td></tr>
+                <tr id={{"BHT-" + end}} name="linha-BHT"><td>{{ end }}</td><td>{{ hist }}</td></tr>
             {%endfor%}
         </table>
-        <table>
+        <table id="tabela-pht">
             <caption> <strong>PADRÃO DOS DESVIOS</strong></caption>
             <tr><th>endereço</th><th>contadores</th></tr>
             {% for end, list_valores in contadores2.items() %}
-                <tr><td>{{ end }}</td><td>{{ list_valores }}</td></tr>
+                <tr id={{"PHT-" + end}} name="linha-PHT"><td>{{ end }}</td><td>{{ list_valores }}</td></tr>
             {% endfor %}
         </table>
     </div>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+   
+   <script type="text/javascript" charset="UTF-8">
+        
+        var linhasDesvios = $('tr[name="linha-desvios"')
+        var linhasBHT = $('tr[name="linha-BHT"')
+        var linhaBHT_anterior, linhaBHT_atual
+        var lnhasPHT = $('td[name="linha-PHT"')
+        var linhaPHT_anterior, linhaPHt_atual
+        
+        var i = 0
+        function loop(){
+            setTimeout(function(){
+                var tdEnderecoDesvio = $(linhasDesvios[i]).children('td')[0]
+                var tdDirecaoRealizada = $(linhasDesvios[i]).children('td')[1]
+
+                $(tdEnderecoDesvio).css({'background-color': 'red'})
+    
+                linhaBHT_atual = $("#BHT-" + tdEnderecoDesvio.innerHTML)
+                linhaBHT_atual.css({'background-color': 'red'})
+                atualizarBHT(tdEnderecoDesvio.innerHTML, tdDirecaoRealizada.innerHTML)
+
+                linhaPHt_atual = $("#PHT-" + tdEnderecoDesvio.innerHTML)
+                linhaPHt_atual.css({'background-color': 'red'})
+
+                if(i > 0){
+                    tdEndDesvioAnterior = $(linhasDesvios[i - 1]).children('td')[0]
+                    $(tdEndDesvioAnterior).css({'background-color': 'white'})
+                    
+                    if(linhaBHT_atual.attr('id') !== linhaBHT_anterior.attr('id')){
+                        linhaBHT_anterior.css({'background-color': 'white'})
+                        linhaPHT_anterior.css({'background-color': 'white'})
+                    }
+                }
+
+                linhaBHT_anterior = linhaBHT_atual
+                linhaPHT_anterior = linhaPHt_atual
+                ++i
+                if(i < linhasDesvios.length){
+                    loop(i)
+                }
+            }, 500)
+        }
+        loop()
+    
+        function atualizarBHT(enderDesvio, dirRealizada){
+            var trLinhaBHT = $("#BHT-" + enderDesvio)
+            var tdHistoricoDesvios = $(trLinhaBHT).children('td')[1]
+            var listaHistoricoDesvios = JSON.parse(tdHistoricoDesvios.innerHTML)
+            console.log(listaHistoricoDesvios)
+            if(dirRealizada == 't')
+                listaHistoricoDesvios.unshift(1)
+            else
+                listaHistoricoDesvios.unshift(0)
+            listaHistoricoDesvios.pop()
+            $(tdHistoricoDesvios).html('[' + listaHistoricoDesvios.toString() + ']')
+        }
+        
+    </script>
 
     <style>
         h1{
