@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
-    <title>Document</title>
+    <title>Preditores de correlação</title>
 </head>
 <body>
     <h1>Preditor BHT</h1>
@@ -27,9 +27,14 @@
         </table>
         <table id="tabela-pht">
             <caption> <strong>PADRÃO DOS DESVIOS</strong></caption>
-            <tr><th>endereço</th><th>contadores</th></tr>
+            <tr><th>endereço</th><th id="th-contadores" colspan="qtdContadores()">contadores</th></tr>
             {% for end, list_valores in contadores2.items() %}
-                <tr id={{"PHT-" + end}} name="linha-PHT"><td>{{ end }}</td><td>{{ list_valores }}</td></tr>
+                <tr id={{"PHT-" + end}} name="linha-PHT">
+                    <td>{{ end }}</td>
+                    {% for valCont in list_valores %}
+                    <td name={{"contadores-" + end}} class="contadores">{{ valCont }}</td>
+                    {% endfor %}
+                </tr>
             {% endfor %}
         </table>
     </div>
@@ -40,12 +45,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
    
    <script type="text/javascript" charset="UTF-8">
+        /*Seta o colspan do título "contadores"*/
+        var contadores = {{contadores2|tojson|safe}}
+        $("#th-contadores").attr('colspan', contadores[Object.keys(contadores)[1]].length)
         
         var linhasDesvios = $('tr[name="linha-desvios"')
         var linhasBHT = $('tr[name="linha-BHT"')
         var linhaBHT_anterior, linhaBHT_atual
         var lnhasPHT = $('td[name="linha-PHT"')
-        var linhaPHT_anterior, linhaPHt_atual
+        var linhaPHT_anterior, linhaPHt_atual, tdContadorAnterior, tdContadorAtual
         
         var i = 0
         function loop(){
@@ -60,11 +68,14 @@
                 atualizarBHT(tdEnderecoDesvio.innerHTML, tdDirecaoRealizada.innerHTML)
 
                 linhaPHt_atual = $("#PHT-" + tdEnderecoDesvio.innerHTML)
-                linhaPHt_atual.css({'background-color': 'red'})
+                linhaPHt_atual.css({'background-color': 'gray'})
+                histDesviosAtual = $(linhaBHT_atual).children('td')[1].innerHTML
+                tdContadorAtual = atulizarContador(tdEnderecoDesvio.innerHTML, histDesviosAtual, tdDirecaoRealizada.innerHTML)
 
                 if(i > 0){
                     tdEndDesvioAnterior = $(linhasDesvios[i - 1]).children('td')[0]
                     $(tdEndDesvioAnterior).css({'background-color': 'white'})
+                    $(tdContadorAnterior).css({'background-color': 'white'})
                     
                     if(linhaBHT_atual.attr('id') !== linhaBHT_anterior.attr('id')){
                         linhaBHT_anterior.css({'background-color': 'white'})
@@ -74,9 +85,10 @@
 
                 linhaBHT_anterior = linhaBHT_atual
                 linhaPHT_anterior = linhaPHt_atual
+                tdContadorAnterior = tdContadorAtual
                 ++i
                 if(i < linhasDesvios.length){
-                    loop(i)
+                    loop()
                 }
             }, 500)
         }
@@ -86,7 +98,6 @@
             var trLinhaBHT = $("#BHT-" + enderDesvio)
             var tdHistoricoDesvios = $(trLinhaBHT).children('td')[1]
             var listaHistoricoDesvios = JSON.parse(tdHistoricoDesvios.innerHTML)
-            console.log(listaHistoricoDesvios)
             if(dirRealizada == 't')
                 listaHistoricoDesvios.unshift(1)
             else
@@ -94,7 +105,33 @@
             listaHistoricoDesvios.pop()
             $(tdHistoricoDesvios).html('[' + listaHistoricoDesvios.toString() + ']')
         }
+
+        function atulizarContador(enderDesvio, histDesvio, dirRealizada){
+            tdContador = $('td[name="contadores-' + enderDesvio)[historicoToIndice(histDesvio)]
+            var valorContador = parseInt(tdContador.innerHTML)
+            if(dirRealizada == 't'){
+                if(valorContador < 3){
+                    valorContador +=1
+                    $(tdContador).css({'background-color': 'green'})
+                }
+            }else{
+                if(valorContador > 0){
+                    valorContador -=1
+                    $(tdContador).css({'background-color': 'red'})                    
+                }
+            }
+            $(tdContador).html(valorContador)
+            return tdContador
+        }
         
+
+        function historicoToIndice(strHist){
+            /*Converte uma string na forma "[b1, b2, ..., bn]"(Histórico de desvios), 
+            onde bi pertence a {0, 1} para um inteiro entre 0 e 2^n - 1*/
+            var strHistBits = strHist.replace(/\[|\]|,/g, '')
+            var numDecimal = parseInt(strHistBits, 2)
+            return numDecimal
+        }
     </script>
 
     <style>
@@ -117,6 +154,12 @@
             justify-content: space-evenly;
             padding-top: 50px;
         }
+
+        .contadores{
+            padding: 0px 5px 0px 5px;
+        }
+
+        
     </style>
 </body>
 </html>
