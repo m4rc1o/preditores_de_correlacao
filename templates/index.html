@@ -9,21 +9,28 @@
 <body>
     <h1>Preditor BHT</h1>
 
-    <label for="arqTrace">Escolha o arquivo de trace:</label><br>
-    <input id="arqTrace" type="file" onload="lerArquivo()">
-
-    <br><br>
-    <label for="m">Escolha o valor de m:</label>
-    <input id="m" type="number" min="5" max="15" value="5">
-
-    <br><br>
-    <label for="n">Escolha o valor de n:</label>
-    <input id="n" type="number" min="2" max="5" value="5">
-
-    <br><br>
-    <button id="btn-iniSim">Inciar simulação</button>
+    <div class="menu">
+        <label for="arqTrace">Escolha o arquivo de trace:</label><br>
+        <input id="arqTrace" type="file" onload="lerArquivo()">
     
-    <div id="div-main">
+        <label for="m">Escolha o valor de m:</label>
+        <input id="m" type="number" min="5" max="15" value="5">
+    
+        <label for="n">Escolha o valor de n:</label>
+        <input id="n" type="number" min="2" max="5" value="5">
+        
+        <button id="btn-iniSim">Inciar simulação</button>
+    </div>
+
+    <div id="resultados">
+        <label for="result-qtd-desvs">Número de desvios encontrados:</label>
+        <div id="result-qtd-desvs">0</div>
+
+        <label for="result-taxa-misspred">Taxa de erro de predição:</label>
+        <div id="result-taxa-misspred">0%</div>
+    </div>
+
+    <div id="div-tabelas">
         <table id="tabela-desvios">
             <caption> <strong>DESVIOS</strong></caption>
             <thead>
@@ -49,7 +56,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
    
    <script type="text/javascript" charset="UTF-8">
          /* "desvios" armazenará os dados do arquivo de trace em um array de arrays onde cada 
@@ -104,7 +110,7 @@
 
         function simular(desvios, BHT, PHT, m, n){
             var linhaBHTanterior, linhaPHTanterior, tdContadAnterior
-            var i = 0
+            var i = 0, qtdMissPred = 0
             function loop(){
                 setTimeout(function(){
                     // Executa a previsão do i-ésimo desvio
@@ -115,9 +121,16 @@
                     dirRealizada = desvios[i][1]
                     $('#realiz-'+i.toString()).text(dirRealizada)
 
+                    // Atuliza o painel de resultados
+                    $('#result-qtd-desvs').text(i + 1)
+                    if(previsao.toLowerCase() != dirRealizada.toLowerCase())
+                        qtdMissPred++
+                    $('#result-taxa-misspred').text((qtdMissPred/(i + 1)).toFixed(4) + '%')
+
                     // Colore a tabela de desvios de acordo com a corretude da previsão
                     atualizarTabDesvios(previsao, dirRealizada, i)
 
+                    // Remove a coloração da linha anterior da da BHT  
                     linhaBHTatual = $('#BHT-'+enderecoHexToMFormat(enderecoDesv, m))
                     if(i > 0 && linhaBHTatual != linhaBHTanterior){
                         linhaBHTanterior.css({'background-color': 'transparent'})
@@ -143,7 +156,7 @@
                     if(i < desvios.length){
                         loop()
                     }
-                }, 1000)
+                }, 100)
             }
             loop()
         }
@@ -305,8 +318,33 @@
         h1{
             text-align: center;
         }
+
+        .menu, #resultados{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding-top: 20px;
+        }
+
+        #resultados{
+            margin-top: 50px;
+            justify-content: center;
+        }
+
+        label{
+            padding: 0px 10px 0px 30px
+        }
+
+        input, button{
+            padding: 0px 10px 0px 10px;
+        }
+
+        button{
+            margin: 20px 100% 0px 100%;
+        }
         
-        #div-main{
+        #div-tabelas{
             width: 100%;
             display: flex;
             flex-wrap: wrap;
