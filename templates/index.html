@@ -151,7 +151,7 @@
         function atualizarTabDesvios(previsao, dirRealizada, i){
             // Colore a tabela de desvios de acordo com a corretude da previsão
             tdPrevisao = $('#prev-'+i.toString())
-            if(previsao == dirRealizada)
+            if(previsao.toLowerCase() == dirRealizada.toLowerCase())
                 tdPrevisao.css({'background-color': 'green'})
             else
                 tdPrevisao.css({'background-color': 'red'})
