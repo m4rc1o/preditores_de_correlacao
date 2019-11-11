@@ -26,28 +26,33 @@
         <label for="result-qtd-desvs">Número de desvios encontrados:</label>
         <div id="result-qtd-desvs">0</div>
 
+        <label for="result-num-misspred">Erros de predição:</label>
+        <div id="result-num-misspred">0</div>
+
         <label for="result-taxa-misspred">Taxa de erro de predição:</label>
         <div id="result-taxa-misspred">0%</div>
     </div>
 
     <div id="div-tabelas">
-        <table id="tabela-desvios">
+        <table id="tabela-desvios" class="tabela">
             <caption> <strong>DESVIOS</strong></caption>
             <thead>
-                <th>endereço</th><th>direção<br>predita</th><th>direção<br>realizada</th>
+                <tr><th>endereço</th><th>direção<br>predita</th><th>direção<br>realizada</th></tr>
             </thead>
             <tbody id="tbody-desvios"></tbody>
         </table>
         
-        <table id="tabela-bht">
+        <table id="tabela-bht" class="tabela">
             <caption> <strong>BHT</strong></caption>
-            <thead><th>endereço</th><th>histórico</th></thead>
+            <thead>
+                <tr><th>endereço</th><th>histórico</th></tr>
+            </thead>
             <tbody id="tbody-bht"></tbody>
         </table>
-        <table id="tabela-pht">
+        <table id="tabela-pht" class="tabela">
             <caption> <strong>PADRÃO DOS DESVIOS</strong></caption>
             <thead>
-                <th>endereço</th><th id="th-contadores">contadores</th>
+                <tr><th>endereço</th><th id="th-contadores">contadores</th></tr>
             </thead>
             <tbody id="tbody-pht"></tbody>
         </table>
@@ -125,7 +130,8 @@
                     $('#result-qtd-desvs').text(i + 1)
                     if(previsao.toLowerCase() != dirRealizada.toLowerCase())
                         qtdMissPred++
-                    $('#result-taxa-misspred').text((qtdMissPred/(i + 1)).toFixed(4) + '%')
+                    $('#result-num-misspred').text(qtdMissPred)
+                    $('#result-taxa-misspred').text((qtdMissPred*100/(i + 1)).toFixed(2) + '%')
 
                     // Colore a tabela de desvios de acordo com a corretude da previsão
                     atualizarTabDesvios(previsao, dirRealizada, i)
@@ -345,7 +351,6 @@
         }
         
         #div-tabelas{
-            width: 100%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-evenly;
@@ -360,6 +365,7 @@
         td, th{
             padding: 0px 10px 0px 10px;
         }
+
 
         .contadores{
             padding: 0px 5px 0px 5px;
