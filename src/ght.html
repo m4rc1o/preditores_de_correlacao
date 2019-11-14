@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/ght.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="menu">
+        <label for="arqTrace">Escolha o arquivo de trace:</label><br>
+        <input id="arqTrace" type="file" onload="lerArquivo()">
+        
+        <label for="n">Escolha o valor de n:</label>
+        <input id="n" type="number" min="5" max="15" value="5">
+        
+        <button id="btn-iniSim">Inciar simulação</button>
+    </div>
+</body>
+</html>
