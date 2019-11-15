@@ -30,11 +30,8 @@ $(document).ready(function () {
     var m, n, BHT, PHT
     // Inicia a simulação quando o botão "Iniciar simulação" for pressionado
     $('#btn-iniSim').click(function(){
-        limparTabelas()
         // Desativa alterações em m e n e a entrada de arquivo
-        $('#m').prop('disabled', true)
-        $('#n').prop('disabled', true)
-        $('#arqTrace').prop('disabled', true)
+        desativarEntradas()
         
         // inicializa as variáveis m e n com os valores selecionados pelo usuário
         m = $('#m').val()
@@ -93,7 +90,7 @@ $(document).ready(function () {
                 if(i < desvios.length){
                     loop()
                 }
-            }, 1000)
+            }, 500)
         }
         loop()
     }
