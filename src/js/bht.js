@@ -30,6 +30,7 @@ $(document).ready(function () {
     var m, n, BHT, PHT
     // Inicia a simulação quando o botão "Iniciar simulação" for pressionado
     $('#btn-iniSim').click(function(){
+        limparTabelas()
         // Desativa alterações em m e n e a entrada de arquivo
         $('#m').prop('disabled', true)
         $('#n').prop('disabled', true)
@@ -50,8 +51,7 @@ $(document).ready(function () {
     })
 
     function simular(desvios, BHT, PHT, m, n){
-        var linhaBHTanterior, linhaPHTanterior, tdContadAnterior
-        var i = 0, qtdMissPred = 0
+        var i = 0, linhaBHTanterior, linhaPHTanterior, tdContadAnterior
         function loop(){
             setTimeout(function(){
                 // Executa a previsão do i-ésimo desvio
@@ -60,15 +60,10 @@ $(document).ready(function () {
                 
                 // Atualiza a direção realizada
                 dirRealizada = desvios[i][1]
-                $('#realiz-'+i.toString()).text(dirRealizada)
 
                 // Atuliza o painel de resultados
-                $('#result-qtd-desvs').text(i + 1)
-                if(previsao.toLowerCase() != dirRealizada.toLowerCase())
-                    qtdMissPred++
-                $('#result-num-misspred').text(qtdMissPred)
-                $('#result-taxa-misspred').text((qtdMissPred*100/(i + 1)).toFixed(2) + '%')
-
+                atualizarPainelResults(previsao, dirRealizada, i)
+                
                 // Colore a tabela de desvios de acordo com a corretude da previsão
                 atualizarTabDesvios(previsao, dirRealizada, i)
 
@@ -98,20 +93,10 @@ $(document).ready(function () {
                 if(i < desvios.length){
                     loop()
                 }
-            }, 100)
+            }, 1000)
         }
         loop()
     }
-
-    function atualizarTabDesvios(previsao, dirRealizada, i){
-        // Colore a tabela de desvios de acordo com a corretude da previsão
-        tdPrevisao = $('#prev-'+i.toString())
-        if(previsao.toLowerCase() == dirRealizada.toLowerCase())
-            tdPrevisao.css({'background-color': 'green'})
-        else
-            tdPrevisao.css({'background-color': 'red'})
-    }
-
 
     function atualizarBHT(BHT, enderDesvio, dirRealizada, m){
         // Atualiza o histórico de desvios indexado por "enderDesvio" na "BHT"
@@ -155,27 +140,12 @@ $(document).ready(function () {
         indiceContad = historicoToIndice(histDesvStr)
         contadores = PHT[enderInMFormat]
         contador = contadores[indiceContad]
-        if(contador.valor >= 2){
-            $('#prev-'+i.toString()).text('T')
+        if(contador.valor >= 2)
             return 'T'
-        }
-        else{
-            $('#prev-'+i.toString()).text('N')
+        
+        else
             return 'N'
-        }
-    }
-
-    function carregarTabelaDesvios(desvios){
-        tabelaDesvios = $('#tabela-desvios')
-        for(i = 0; i < desvios.length; ++i){
-            tabelaDesvios.children('tbody').append('<tr id="desv-'+i.toString()+'"\
-                name="linha-desvios">\
-                    <td>'+desvios[i][0]+'</td>\
-                    <td id="prev-'+i.toString()+'"'+'></td>\
-                    <td id="realiz-'+ i.toString()+'"'+'></td>\
-                </tr>')
-            //$('#tbody-desvios').scrollTop($('#tbody-desvios').prop('scrollHeight'))
-        }
+        
     }
 
     function carregarBHT(desvios, m, n){
