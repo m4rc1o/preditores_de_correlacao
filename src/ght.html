@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="css/bht.css">
+    <link rel="stylesheet" href="css/ght.css">
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/ght.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Preditor GHT</h1>
+    
+    <div class="menu">
+        <label for="arqTrace">Escolha o arquivo de trace:</label><br>
+        <input id="arqTrace" type="file" onload="lerArquivo()">
+        
+        <label for="n">Escolha o valor de n:</label>
+        <input id="n" type="number" min="5" max="15" value="5">
+        
+        <button id="btn-iniSim">Inciar simulação</button>
+    </div>
+
+    <div id="resultados">
+        <label for="result-qtd-desvs">Número de desvios encontrados:</label>
+        <div id="result-qtd-desvs">0</div>
+
+        <label for="result-num-misspred">Erros de predição:</label>
+        <div id="result-num-misspred">0</div>
+
+        <label for="result-taxa-misspred">Taxa de erro de predição:</label>
+        <div id="result-taxa-misspred">0%</div>
+    </div>
+
+    <div id="div-tabelas">
+        <table id="tabela-desvios" class="tabela">
+            <caption> <strong>DESVIOS</strong></caption>
+            <thead>
+                <tr><th>endereço</th><th>direção<br>predita</th><th>direção<br>realizada</th></tr>
+            </thead>
+            <tbody id="tbody-desvios"></tbody>
+        </table>
+        <table id="tabela-rhg" class="tabela">
+            <caption> <strong>HISTÓRICO GLOBAL</strong></caption>
+            <thead><th>Reg. de Histórico Global</th></thead>
+            <tbody id="tbody-rhg"></tbody>
+        </table>
+        <table id="tabela-conts" class="tabela">
+            <caption> <strong>CONTADORES</strong></caption>
+            <thead>
+                <tr><th>endereço</th><th>contador</th></tr>
+            </thead>
+            <tbody id="tbody-conts"></tbody>
+        </table>
+    </div>
+</body>
+</html>

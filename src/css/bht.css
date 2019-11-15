@@ -1,0 +1,49 @@
+h1{
+    text-align: center;
+}
+
+.menu, #resultados{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+#resultados{
+    margin-top: 50px;
+    justify-content: center;
+}
+
+label{
+    padding: 0px 10px 0px 30px
+}
+
+input, button{
+    padding: 0px 10px 0px 10px;
+}
+
+button{
+    margin: 20px 100% 0px 100%;
+}
+
+#div-tabelas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-top: 50px;
+}
+
+table{
+    text-align: center;
+    border: 2px solid green;
+}
+
+td, th{
+    padding: 0px 10px 0px 10px;
+}
+
+.contadores{
+    padding: 0px 5px 0px 5px;
+}
+
