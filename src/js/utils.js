@@ -71,3 +71,13 @@ function desativarEntradas(){
     $('#arqTrace').prop('disabled', true)
     $('#btn-iniSim').prop('disabled', true)
 }
+
+
+function showOrHideHelp() {
+    let helpSection = document.getElementById("help-div");
+    if (helpSection.style.display === "none") {
+        helpSection.style.display = "block";
+    } else {
+        helpSection.style.display = "none";
+    }
+}

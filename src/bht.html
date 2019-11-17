@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bht.css">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/69d4d7b6b7.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/bht.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/bht.js"></script>
-    <title>Preditores de correlação</title>
+    <title>Preditor de correlação- BHT</title>
 </head>
+
 <body>
     <h1>Preditor BHT</h1>
 
     <div class="menu">
         <label for="arqTrace">Escolha o arquivo de trace:</label><br>
         <input id="arqTrace" type="file" onload="lerArquivo()">
-    
+
         <label for="m">Escolha o valor de m:</label>
         <input id="m" type="number" min="5" max="15" value="5">
-    
+
         <label for="n">Escolha o valor de n:</label>
         <input id="n" type="number" min="2" max="5" value="5">
-        
+
         <button id="btn-iniSim">Inciar simulação</button>
+        <button type="button" title="Botão para acesso ao manual de uso" class="btn btn-help"
+            onclick="showOrHideHelp()"><i class="fa fa-question"></i></button>
     </div>
 
     <div id="resultados">
@@ -43,15 +55,22 @@
         <table id="tabela-desvios" class="tabela">
             <caption> <strong>DESVIOS</strong></caption>
             <thead>
-                <tr><th>endereço</th><th>direção<br>predita</th><th>direção<br>realizada</th></tr>
+                <tr>
+                    <th>endereço</th>
+                    <th>direção<br>predita</th>
+                    <th>direção<br>realizada</th>
+                </tr>
             </thead>
             <tbody id="tbody-desvios"></tbody>
         </table>
-        
+
         <table id="tabela-bht" class="tabela">
             <caption> <strong>BHT</strong></caption>
             <thead>
-                <tr><th>endereço</th><th>histórico</th></tr>
+                <tr>
+                    <th>endereço</th>
+                    <th>histórico</th>
+                </tr>
             </thead>
             <tbody id="tbody-bht"></tbody>
         </table>
@@ -59,11 +78,36 @@
         <table id="tabela-pht" class="tabela">
             <caption> <strong>PADRÃO DOS DESVIOS</strong></caption>
             <thead>
-                <tr><th>endereço</th><th id="th-contadores">contadores</th></tr>
+                <tr>
+                    <th>endereço</th>
+                    <th id="th-contadores">contadores</th>
+                </tr>
             </thead>
             <tbody id="tbody-pht"></tbody>
         </table>
-        
-    </div>   
+    </div>
+
+    <div class="help-container" id="help-div" style="display: none;">
+        <hr>
+        <h1>Manual de uso - BHT</h1>
+        <ol>
+            <li>
+                Selecione um arquivo de trace
+            </li>
+            <li>
+                Escolha um valor inteiro para m
+            </li>
+            <li>
+                Escolha um valor inteiro para n
+            </li>
+            <li>
+                Clique no botão de iniciar simulação
+            </li>
+            <li>
+                Reinicie a página para iniciar uma nova simulação
+            </li>
+        </ol>
+    </div>
 </body>
+
 </html>
