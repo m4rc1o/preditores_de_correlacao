@@ -1,49 +1,105 @@
-h1{
-    text-align: center;
+h1 {
+  text-align: center;
 }
 
-.menu, #resultados{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-top: 20px;
+.menu,
+#resultados {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
 }
 
-#resultados{
-    margin-top: 50px;
-    justify-content: center;
+#resultados {
+  margin-top: 50px;
+  justify-content: center;
 }
 
-label{
-    padding: 0px 10px 0px 30px
+label {
+  padding: 0px 10px 0px 30px;
 }
 
-input, button{
-    padding: 0px 10px 0px 10px;
+input,
+button {
+  padding: 0px 10px 0px 10px;
 }
 
-button{
-    margin: 20px 100% 0px 100%;
+button {
+  margin: 20px 100% 0px 100%;
 }
 
-#div-tabelas{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding-top: 50px;
+#div-tabelas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-top: 50px;
 }
 
-table{
-    text-align: center;
-    border: 2px solid green;
+table {
+  text-align: center;
+  border: 2px solid green;
 }
 
-td, th{
-    padding: 0px 10px 0px 10px;
+td,
+th {
+  padding: 0px 10px 0px 10px;
 }
 
-.contadores{
-    padding: 0px 5px 0px 5px;
+.contadores {
+  padding: 0px 5px 0px 5px;
 }
 
+.btn-help {
+  margin-top: 2%;
+  font-size: 16px;
+  color: white;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  transition: all 0.3s ease 0s;
+  background: royalblue;
+}
+
+.btn-help:hover {
+  color: royalblue;
+  background: white;
+  border: 1px solid #0377fc;
+}
+
+.btn-help:active {
+  color: black;
+  background: yellow;
+}
+
+.help-container {
+  margin: 0 auto;
+}
+
+.help-container h1 {
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+.help-container ol {
+  margin-left: 10%;
+  font-size: 16px;
+  font-weight: 500;
+}
+.help-container li {
+  padding-bottom: 18px;
+}
+
+.help-container hr {
+  border: none;
+  height: 1px;
+  background-color: #333;
+}
+
+caption {
+  text-align: center;
+  caption-side: top;
+}
+
+/* .menu .btn-container {
+  flex: 1;
+} */
