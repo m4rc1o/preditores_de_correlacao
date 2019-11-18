@@ -23,7 +23,7 @@ $(document).ready(function () {
         })
 
 
-    n = 0
+    var n = 0, rhg = null, contadores = []
     $('#btn-iniSim').click(function () {
         // Desativa alterações em m e n e a entrada de arquivo
         desativarEntradas()
@@ -32,7 +32,8 @@ $(document).ready(function () {
         // Criando o "registrador de histórico global" e inicializando-o com zeros
         rhg = new Array(parseInt(n)).fill(0)
         // Criando o array de contadores que serão indexados por "rhg"
-        contadores = new Array(Math.pow(2, n)).fill(new Contador())
+        for(let i = 0; i < Math.pow(2, n); ++i)
+            contadores.push(new Contador())
         // Exibe as tabelas de desvios, RHG e Contadores no browser
         carregarTabelaDesvios(desvios)
         montarTabRHG()
@@ -43,7 +44,7 @@ $(document).ready(function () {
     
 
     function  simular(){
-        i = 0, linhaContadoresAnterior = null, tdRHGanterior = null
+        var i = 0, linhaContadoresAnterior = null, tdRHGanterior = null
         function loop(){
             setTimeout(function(){
                 previsao = preverDesvio()
